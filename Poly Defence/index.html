@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--Samuel Spiers - 000731023-->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" 
+            rel="stylesheet" 
+            integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" 
+            crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" 
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="styles.css">
+        <script src="defence.js" defer></script>
+    </head>
+    <header>
+        <div class="text-center" id="options">
+                    <h1 class="text-center my-5">Poly Defence</h1>
+                    <h4 class="text-center">Options</h4>
+                    <button id="easyMode" class="btn btn-primary mx-2 my-3" onclick="setDifficulty(0)" title="Slow, weak enemies, few in number">Easy Mode</button>
+                    <button id="mediumMode" class="btn btn-warning mx-2 my-3" onclick="setDifficulty(1)" title="A nice middle ground">Medium Mode</button>
+                    <button id="hardMode" class="btn btn-danger mx-2 my-3" onclick="setDifficulty(2)" title="Fast, strong enemies, relentless onslaught">Hard Mode</button>
+                    <button id="hardcoreMode" class="btn btn-danger mx-2 my-3" onclick="toggleHardcore()" title="You only get 1 heart">Hardcore</button>
+                    <h3>-----------------------------------</h3>
+                    <button id="startWave" class="btn btn-success mx-2 my-3 disabled" onclick="startNextWave()">Start Wave</button>
+                    <button id="newTrack" class="btn btn-info mx-2 my-3" onclick="drawLevel()">Generate Track</button>
+                    <button id="reset" class="btn btn-success mx-2 my-3 disabled" onclick="reset()">Play Again</button>
+                </div>
+    </header>
+    <body class="bg-dark text-light">
+        <div class="row">
+            <div class="col">
+                <div class="mx-3">
+                    <h3>How To Play</h3>
+                    <div class="accordion" id="tutorialAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                            <button class="accordion-button bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Controls
+                            </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse bg-dark text-white" data-bs-parent="#tutorialAccordion">
+                                <div class="accordion-body">
+                                    <p>
+                                        <em>LEFT CLICK ON MAP:</em> Select a map tile<br>
+                                        <em>RIGHT CLICK ON TOWER:</em> Select a tower<br>
+                                        <em>LEFT CLICK ON TOWER ICON:</em> Purchase towers<br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                            <button class="accordion-button bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Gameplay
+                            </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse bg-dark text-white" data-bs-parent="#tutorialAccordion">
+                                <div class="accordion-body">
+                                    <p>
+                                        - You may only select empty, green tiles.<br>
+                                        - You may select any number of tiles and/or towers at the same time.<br>
+                                        - If multiple tiles are selected, clicking the tower icon will fill as many of your selected
+                                        tiles with towers as you can afford.<br>
+                                        - When a tower is selected, its current maximum firing range will be displayed by a
+                                        red ring.<br>
+                                        - If multiple towers are selected, clicking the <em>Upgrade</em> button will upgrade as many of
+                                        your selected towers as you can afford.<br>
+                                        - Your towers have levels 1-9, and will gain increased damage, fire rate, and range with each upgrade.<br>
+                                        - You have <em>10</em> health. You will lose <em>1</em> for every enemy that gets through your defences.<br>
+                                        - You start with <em>$20</em>, and earn <em>$10</em> for every enemy you destroy<br>
+                                        - You may press the <em>Start Wave</em> button as often as you'd like, but be prepared!
+                                    </p>
+                                    <h5>Prices</h5>
+                                    <p>
+                                        Towers: <em>$10</em><br>
+                                        Tower Upgrades: <em>$5 x upgrade level</em>
+                                    </p>
+                                    <h5>Towers</h5>
+                                    <p>
+                                        Damage: <em>12 per shot</em> (+3/upgrade)<br>
+                                        Range: <em>150 pixels</em> (+25/upgrade)<br>
+                                        Reload Time: <em>1 second</em> (-0.1 seconds/upgrade)
+                                    </p>
+                                    <h5>Enemies</h5>
+                                    <h6>Easy</h6>
+                                    <p>
+                                        Health: <em>65</em><br>
+                                        Speed: <em>0.5 pixels/s</em>
+                                    </p>
+                                    <h6>Medium</h6>
+                                    <p>
+                                        Health: <em>85</em><br>
+                                        Speed: <em>0.75 pixels/s</em>
+                                    </p>
+                                    <h6>Hard</h6>
+                                    <p>
+                                        Health: <em>100</em><br>
+                                        Speed: <em>1 pixel/s</em>
+                                    </p>
+                                    <p>
+                                    Begin by selecting the desired difficulty from the options menu. Hover over the buttons to learn the differences they make.
+                                    </p>
+                                    Press the "Generate Track" button to generate a new track layout until you get one you like.<br>
+                                    <em>Hint: More winding track layouts are easier, as the enemies have farther to travel.</em>
+                                    </p>
+                                    <p>
+                                        When you're ready to start, click the <em>Start Wave</em> button to begin the first wave.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+            <div class="col">
+                <h4 id="waveDisplay" class="text-center">Current Wave: </h4>
+                <svg id="canvas" width="500" height="500" class="mx-auto d-block my-3"></svg>
+                <svg id="shopCanvas" width="500" height="100" class="mx-auto d-block bg-light"></svg>
+                <div class="text-center my-3">
+                    <h3 id="healthDisplay" class="d-inline">Health: 10</h3>
+                    <h3 id="healthDisplayHearts" class="d-inline">&hearts;&hearts;&hearts;&hearts;&hearts;&hearts;&hearts;&hearts;&hearts;&hearts;</h3>
+                </div>
+                <div class="text-center my-3">
+                    <h3  class="d-inline">Money: </h3>
+                    <h3 id="moneyDisplay"  class="d-inline">$20</h3>
+                    <button id="upgrade" class="d-inline btn btn-info mx-3" onclick="upgradeTowers()">Upgrade</button>
+                </div>
+            </div>
+            <div class="col">
+                <h4>Tower Levels</h4>
+                <h4>---------------</h4>
+                <h4 class="d-inline">Level 1: </h4>
+                <h4 id="lvl1" class="d-inline">⬤</h4><br>
+                <h4 class="d-inline">Level 2:</h4>
+                <h4 id="lvl2" class="d-inline">⬤</h4><br>
+                <h4 class="d-inline">Level 3:</h4>
+                <h4 id="lvl3" class="d-inline">⬤</h4><br>
+                <h4 class="d-inline">Level 4:</h4>
+                <h4 id="lvl4" class="d-inline">⬤</h4><br>
+                <h4 class="d-inline">Level 5:</h4>
+                <h4 id="lvl5" class="d-inline">⬤</h4><br>
+                <h4 class="d-inline">Level 6:</h4>
+                <h4 id="lvl6" class="d-inline">⬤</h4><br>
+                <h4 class="d-inline">Level 7:</h4>
+                <h4 id="lvl7" class="d-inline">⬤</h4><br>
+                <h4 class="d-inline">Level 8:</h4>
+                <h4 id="lvl8" class="d-inline">⬤</h4><br>
+                <h4 class="d-inline">Level 9:</h4>
+                <h4 id="lvl9" class="d-inline">⬤</h4>
+            </div>
+        </div> 
+    </body>
+    <footer class="my-5 text-center">
+        &copy;Samuel Spiers - 2025
+    </footer>
+</html>

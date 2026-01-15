@@ -1,0 +1,63 @@
+svg {
+    border: 3px solid black;
+}
+
+#healthDisplayHearts {
+    color: red;
+}
+
+#moneyDisplay {
+    color: yellow;
+}
+
+#options {
+    margin-top: 50px;
+}
+
+#gameDisplay {
+    min-width: 500px;
+}
+
+#lvl1 {
+    color: saddlebrown;
+}
+
+#lvl2 {
+    color: grey;
+}
+
+#lvl3 {
+    color: greenyellow;
+}
+
+#lvl4 {
+    color: blue;
+}
+
+#lvl5 {
+    color: purple;
+}
+
+#lvl6 {
+    color: orange;
+}
+
+#lvl7 {
+    color: firebrick;
+}
+
+#lvl8 {
+    color: deeppink;
+}
+
+#lvl9 {
+    color: gold;
+}
+
+em {
+    color: yellow;
+}
+
+h5 {
+    border-bottom: 2px solid white;
+}
